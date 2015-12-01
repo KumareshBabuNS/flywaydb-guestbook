@@ -1,4 +1,4 @@
-package guestbook;
+package io.pivotal.fe.demo.guestbook;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,9 +7,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = GuestBookApplication.class)
+@SpringApplicationConfiguration(classes = GuestbookApplication.class)
 @WebAppConfiguration
-public class GuestBookApplicationTests {
+public class GuestbookApplicationTests {
 
 	@Test
 	public void contextLoads() {
