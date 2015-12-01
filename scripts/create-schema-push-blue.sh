@@ -9,3 +9,6 @@ $FWDB_HOME/flyway migrate
 echo "------------- Push Blue -------------"
 cd spring-boot-guestbook
 cf push
+
+echo "------------- Add PROD route to Blue -------------"
+# TODO
