@@ -21,21 +21,16 @@ angular.module('guestbook', [ 'ngRoute' ])
 	  }
 	  $scope.save=function(){
 		  $scope.waiting = true;
-		  $http.get("/fortune").success(function(data){
-			  console.log("Get fortune: " + JSON.stringify(data));
-			  var fortune = data;
-			  var message = {
-					  name: $scope.message.name,
-					  message: $scope.message.message,
-					  fortune: fortune
-			  	};
-			  $http.post("/message", message).success(function(data){
-				  console.log("Saved: " + data);
-				  _this.loadData();
-				  $scope.message.name = "";
-				  $scope.message.message = "";
-				  $scope.waiting = false;
-			  });
+		  var message = {
+				  name: $scope.message.name,
+				  message: $scope.message.message
+		  	};
+		  $http.post("/message", message).success(function(data){
+			  console.log("Saved: " + data);
+			  _this.loadData();
+			  $scope.message.name = "";
+			  $scope.message.message = "";
+			  $scope.waiting = false;
 		  });
 	  }
 	  this.loadData();

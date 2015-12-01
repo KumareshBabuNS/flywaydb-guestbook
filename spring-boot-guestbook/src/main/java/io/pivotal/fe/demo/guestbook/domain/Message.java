@@ -31,8 +31,6 @@ public class Message implements Serializable {
 
   private Date created;
   
-  private String fortune;
-
   protected Message(){
 	    this.created = new Date();
   }
@@ -61,14 +59,6 @@ public class Message implements Serializable {
 
   public void setMessage(String message) {
     this.message = message;
-  }
-  
-  public String getFortune() {
-	  return fortune;
-  }
-
-  public void setFortune(String fortune) {
-	  this.fortune = fortune;
   }
   
   @JsonSerialize(using=JsonDateSerializer.class)

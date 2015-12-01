@@ -1,10 +1,10 @@
 package io.pivotal.fe.demo.guestbook.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
+	
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.CloudFactory;
@@ -18,54 +18,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.pivotal.fe.demo.guestbook.service.FortuneService;
-
 @Controller
 public class ServiceController {
 
 	private Cloud cloud;
-	
-    @Autowired
-    FortuneService service;
-
-    @RequestMapping(value = "/fortune", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public String remoteFortune() {
-    	ObjectMapper mapper = new ObjectMapper();
-    	String json = "";
-		try {
-			json = mapper.writeValueAsString(service.remoteFortune());
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return json;
-    }
 
 	@RequestMapping(value = "/cloudinfo", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String getCloudInfo(@RequestHeader ("host") String hostName, HttpServletRequest request) {
+	public String getCloudInfo(@RequestHeader ("host") String hostName) {
 		String properties = "";
+		ApplicationInstanceInfo cloudInfo = null;
 		try {
 			cloud = new CloudFactory().getCloud();
+			cloudInfo = cloud.getApplicationInstanceInfo();
 		} catch (CloudException e) {
 			//e.printStackTrace();
-			return properties;
+			System.out.println("No Cloud found ... continuing ...");
+			//return properties;
 		}
-		ApplicationInstanceInfo cloudInfo = cloud.getApplicationInstanceInfo();
-
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Map<String, Object> props = cloudInfo.getProperties();
+			Map<String, Object> props = new HashMap<String, Object>();
+			if (cloudInfo != null) {
+				props.putAll(cloudInfo.getProperties());
+			}
 			props.put("host_name", hostName);
-			props.put("ip", request.getRemoteAddr());
+			props.put("ip", InetAddress.getLocalHost().getHostAddress());
 			properties = mapper.writeValueAsString(props);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (UnknownHostException uhe) {
+			uhe.printStackTrace();
 		}
 		return properties;
-
 	}
 	
     @RequestMapping(value="/killApp", method = RequestMethod.GET)
