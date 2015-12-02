@@ -1,0 +1,9 @@
+---
+applications:
+- name: guestbook-fwdb-green
+  memory: 1G
+  instances: 1
+  host: guestbook-fwdb-green
+  path: ./target/guestbook-0.0.2-SNAPSHOT.jar
+  services:
+    - fwdb

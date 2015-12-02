@@ -7,8 +7,8 @@ echo "------------- Run FlywayDB -------------"
 $FWDB_HOME/flyway migrate
 
 echo "------------- Push Blue -------------"
-cd spring-boot-guestbook
+cd ../spring-boot-guestbook
 cf push
 
 echo "------------- Add PROD route to Blue -------------"
-# TODO
+cf map-route guestbook-fwdb-blue cfapps.io -n guestbook-fwdb
