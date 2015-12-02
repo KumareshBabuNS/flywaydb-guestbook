@@ -1,0 +1,9 @@
+div.jumbotron.bluebg {
+	background: blue;
+    color: white;
+}
+
+div.centerItem {
+	margin:10px 0px;
+	text-align:center;
+}
